@@ -18,11 +18,11 @@ import frc.robot.Constants.*;
 
 public class SwerveModule extends SubsystemBase{
     private CANSparkMax turningMotor;
-    private WPI_TalonFX drivingMotor;
+    private CANSparkMax drivingMotor;
 
     private CANCoder absoluteEncoder;
     private RelativeEncoder turningEnc;
-    private TalonFXSensorCollection drivingEnc;
+    private RelativeEncoder drivingEnc;
 
     private PIDController turningPID;
 
@@ -31,13 +31,13 @@ public class SwerveModule extends SubsystemBase{
 
     private double kp, ki, kd;
 
-    public SwerveModule(int neoPort, int talonPort, int cancoderPort, double encoderOffset, boolean encoderReversed, boolean driveReversed){
-        turningMotor = new CANSparkMax(neoPort, MotorType.kBrushless);
-        drivingMotor = new WPI_TalonFX(talonPort);
+    public SwerveModule(int turnPort, int drivePort, int cancoderPort, double encoderOffset, boolean encoderReversed, boolean driveReversed){
+        turningMotor = new CANSparkMax(turnPort, MotorType.kBrushless);
+        drivingMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
 
         absoluteEncoder = new CANCoder(cancoderPort);
         turningEnc = turningMotor.getEncoder();
-        drivingEnc = new TalonFXSensorCollection(drivingMotor);
+        drivingEnc = drivingMotor.getEncoder();
 
         turningPID = new PIDController(SwerveConsts.kp, SwerveConsts.ki, SwerveConsts.kd);
         turningPID.enableContinuousInput(-Math.PI, Math.PI); // System is circular;  Goes from -Math.PI to 0 to Math.PI
@@ -57,7 +57,7 @@ public class SwerveModule extends SubsystemBase{
     /* * * ENCODER VALUES * * */
 
     public double getDrivePosition(){
-        return drivingEnc.getIntegratedSensorPosition();
+        return drivingEnc.getPosition();
     }
 
     // neo encoder in degrees 
@@ -66,7 +66,7 @@ public class SwerveModule extends SubsystemBase{
     }
 
     public double getDriveSpeed(){
-        return drivingEnc.getIntegratedSensorVelocity();
+        return drivingEnc.getPosition();
     }
 
     public double getTurningSpeed(){
@@ -86,7 +86,7 @@ public class SwerveModule extends SubsystemBase{
 
     // set turning enc to value of absolute encoder
     public void resetEncoders(){
-        drivingEnc.setIntegratedSensorPosition(0, 0);
+        drivingEnc.setPosition(0);
         turningEnc.setPosition(getAbsoluteEncoder());
     }
 
@@ -136,7 +136,7 @@ public class SwerveModule extends SubsystemBase{
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] turning enc", getTurningPosition());
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] CANCoder", getAbsoluteEncoder());
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] Drive Speed", getDriveSpeed());
-        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] NEO Output", drivingMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] NEO Output", drivingMotor.getBusVoltage());
     }
 
     // constructor
