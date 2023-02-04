@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -55,6 +56,7 @@ public class SwerveModule extends SubsystemBase{
 
         drivingMotor.setInverted(driveReversed);
         turningMotor.setInverted(turnReversed);
+        turningMotor.setIdleMode(IdleMode.kBrake);
 
         resetEncoders();
 
@@ -123,6 +125,7 @@ public class SwerveModule extends SubsystemBase{
         SmartDashboard.putString("Swerve["+absoluteEncoder.getDeviceID()+"] state", state.toString());  
     }
 
+    // test
     public void lockInPlace(){
         SwerveModuleState lock = new SwerveModuleState(0, new Rotation2d(getAbsoluteEncoder()));
         if(Math.abs(lock.speedMetersPerSecond) < 0.01){
