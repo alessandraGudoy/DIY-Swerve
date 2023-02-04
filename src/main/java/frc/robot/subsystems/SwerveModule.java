@@ -123,6 +123,18 @@ public class SwerveModule extends SubsystemBase{
         SmartDashboard.putString("Swerve["+absoluteEncoder.getDeviceID()+"] state", state.toString());  
     }
 
+    public void lockInPlace(){
+        SwerveModuleState lock = new SwerveModuleState(0, new Rotation2d(getAbsoluteEncoder()));
+        if(Math.abs(lock.speedMetersPerSecond) < 0.01){
+            stop();
+            return;
+        }
+
+        lock = SwerveModuleState.optimize(lock, getState().angle);
+        drivingMotor.set(0);
+        turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), lock.angle.getRadians()) * SwerveConsts.voltage);
+    }
+
     public void stop(){
         drivingMotor.set(0);
         turningMotor.set(0);
