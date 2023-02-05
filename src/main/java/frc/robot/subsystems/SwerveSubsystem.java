@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
@@ -18,7 +17,6 @@ public class SwerveSubsystem extends SubsystemBase {
     private SwerveModule frontRight;
 
     private AHRS navx;
-
 
     public SwerveSubsystem() {
         frontLeft = new SwerveModule(SwerveConsts.FL_turningMotorPort, SwerveConsts.FL_driveMotorPort, 
@@ -61,6 +59,18 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[1]);
         backRight.setDesiredState(desiredStates[2]);
         frontRight.setDesiredState(desiredStates[3]);
+    }
+
+    public void lock(){
+        SwerveModuleState fl = new SwerveModuleState(0.1, new Rotation2d(45));
+        SwerveModuleState bl = new SwerveModuleState(0.1, new Rotation2d(45));
+        SwerveModuleState br = new SwerveModuleState(0.1, new Rotation2d(45));
+        SwerveModuleState fr = new SwerveModuleState(0.1, new Rotation2d(45));
+
+        frontLeft.setDesiredState(fl);
+        backLeft.setDesiredState(bl);
+        backRight.setDesiredState(br);
+        frontRight.setDesiredState(fr);
     }
 
     // PERIODIC - runs repeatedly (like periodic from timed robot)
