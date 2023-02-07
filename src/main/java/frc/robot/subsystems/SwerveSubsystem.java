@@ -62,15 +62,27 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void lock(){
-        SwerveModuleState fl = new SwerveModuleState(0.1, new Rotation2d(45));
-        SwerveModuleState bl = new SwerveModuleState(0.1, new Rotation2d(45));
-        SwerveModuleState br = new SwerveModuleState(0.1, new Rotation2d(45));
-        SwerveModuleState fr = new SwerveModuleState(0.1, new Rotation2d(45));
+        SwerveModuleState fl = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(-45)));
+        SwerveModuleState bl = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(45)));
+        SwerveModuleState br = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(-45)));
+        SwerveModuleState fr = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(45)));
 
         frontLeft.setDesiredState(fl);
         backLeft.setDesiredState(bl);
         backRight.setDesiredState(br);
         frontRight.setDesiredState(fr);
+    }
+
+    public void test(){
+        SwerveModuleState fl = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(45)));
+        SwerveModuleState bl = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(-45)));
+        SwerveModuleState br = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(45)));
+        SwerveModuleState fr = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(-45)));
+
+        frontLeft.setState(fl);
+        backLeft.setState(bl);
+        backRight.setState(br);
+        frontRight.setState(fr);
     }
 
     // PERIODIC - runs repeatedly (like periodic from timed robot)
