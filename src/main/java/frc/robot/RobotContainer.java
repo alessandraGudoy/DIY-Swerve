@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriverControl;
+import frc.robot.commands.Lock;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
@@ -17,13 +18,13 @@ public class RobotContainer {
       () -> -m_Controller.getLeftY(), 
       () -> -m_Controller.getLeftX(), 
       () -> -m_Controller.getRightX(), 
-      () -> m_Controller.getLeftBumper()));
+      () -> m_Controller.getRightBumper()));
     configureBindings();
   }
 
   private void configureBindings() {
     new JoystickButton(m_Controller, 1).onTrue(new InstantCommand(() -> swerveSubsystem.resetNavx()));
-    
+    new JoystickButton(m_Controller, 5).toggleOnTrue(new Lock(swerveSubsystem));
   }
 
 

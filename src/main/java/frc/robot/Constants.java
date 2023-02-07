@@ -17,7 +17,7 @@ public final class Constants {
     public static final double steerGearRatio = 150 / 7;
     public static final double trackWidth = 0.635;
     public static final double wheelBase = 0.635;
-    public static final double voltage = 2.0;
+    public static final double voltage = 9.0;
 
     /* Swerve Drive Kinematics */
     public static final SwerveDriveKinematics driveKinematics = new SwerveDriveKinematics(
@@ -72,9 +72,9 @@ public final class Constants {
     public static final double maxRotation = maxSpeed_mps / Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
 
     /* * * PID VALUES * * */
-    public static final double kp = 0.2;
-    public static final double ki = 0.004;
-    public static final double kd = 0.0001;
+    public static final double kp = 0.02;
+    public static final double ki = 0.0;
+    public static final double kd = 0.0;
   }
 
 }

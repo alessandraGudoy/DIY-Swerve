@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
@@ -19,7 +18,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private AHRS navx;
 
-
     public SwerveSubsystem() {
         frontLeft = new SwerveModule(SwerveConsts.FL_turningMotorPort, SwerveConsts.FL_driveMotorPort, 
             SwerveConsts.FL_absoluteEncoderPort, SwerveConsts.FL_offset , false, true, true);
@@ -33,7 +31,7 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight = new SwerveModule(SwerveConsts.FR_turningMotorPort, SwerveConsts.FR_driveMotorPort, 
             SwerveConsts.FR_absoluteEncoderPort, SwerveConsts.FR_offset , false, true, true);
 
-        navx = new AHRS(SPI.Port.kMXP);;
+        navx = new AHRS(SPI.Port.kMXP);
     }
 
     public void resetNavx() {
@@ -61,6 +59,30 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[1]);
         backRight.setDesiredState(desiredStates[2]);
         frontRight.setDesiredState(desiredStates[3]);
+    }
+
+    public void lock(){
+        SwerveModuleState fl = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(-45)));
+        SwerveModuleState bl = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(45)));
+        SwerveModuleState br = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(-45)));
+        SwerveModuleState fr = new SwerveModuleState(0.1, new Rotation2d(Math.toRadians(45)));
+
+        frontLeft.setDesiredState(fl);
+        backLeft.setDesiredState(bl);
+        backRight.setDesiredState(br);
+        frontRight.setDesiredState(fr);
+    }
+
+    public void test(){
+        SwerveModuleState fl = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(45)));
+        SwerveModuleState bl = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(-45)));
+        SwerveModuleState br = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(45)));
+        SwerveModuleState fr = new SwerveModuleState(0.0, new Rotation2d(Math.toRadians(-45)));
+
+        frontLeft.setState(fl);
+        backLeft.setState(bl);
+        backRight.setState(br);
+        frontRight.setState(fr);
     }
 
     // PERIODIC - runs repeatedly (like periodic from timed robot)
