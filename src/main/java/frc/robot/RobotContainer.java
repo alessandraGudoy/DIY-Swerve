@@ -14,9 +14,9 @@ public class RobotContainer {
   public final XboxController m_Controller = new XboxController(0);
 
   public RobotContainer() {
-    swerveSubsystem.setDefaultCommand(new DriverControl(swerveSubsystem,
+    swerveSubsystem.setDefaultCommand(new DriverControl(swerveSubsystem, 
       () -> -m_Controller.getLeftY(), 
-      () -> -m_Controller.getLeftX(), 
+      () -> -m_Controller.getLeftX(),
       () -> -m_Controller.getRightX(), 
       () -> m_Controller.getRightBumper()));
     configureBindings();

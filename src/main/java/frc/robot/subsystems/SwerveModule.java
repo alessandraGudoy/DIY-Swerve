@@ -72,7 +72,7 @@ public class SwerveModule extends SubsystemBase{
     }
 
     public double getDriveSpeed(){
-        return drivingEnc.getPosition();
+        return drivingEnc.getVelocity();
     }
 
     public double getTurningSpeed(){
@@ -123,7 +123,7 @@ public class SwerveModule extends SubsystemBase{
         SmartDashboard.putString("Swerve["+absoluteEncoder.getDeviceID()+"] state", state.toString());  
     }
 
-    public void setState(SwerveModuleState state){
+    public void setAngle(SwerveModuleState state){
 
         state = SwerveModuleState.optimize(state, getState().angle);
 
@@ -134,19 +134,6 @@ public class SwerveModule extends SubsystemBase{
         // Print to SmartDashboard
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] desired enc", state.angle.getRadians()); //desired enc 
         SmartDashboard.putString("Swerve["+absoluteEncoder.getDeviceID()+"] state", state.toString());  
-    }
-
-    // test
-    public void lockInPlace(){
-        SwerveModuleState lock = new SwerveModuleState(0, new Rotation2d(getAbsoluteEncoder()));
-        if(Math.abs(lock.speedMetersPerSecond) < 0.01){
-            stop();
-            return;
-        }
-
-        lock = SwerveModuleState.optimize(lock, getState().angle);
-        drivingMotor.set(0);
-        turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), lock.angle.getRadians()) * SwerveConsts.voltage);
     }
 
     public void stop(){
@@ -168,7 +155,7 @@ public class SwerveModule extends SubsystemBase{
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] turning enc", getTurningPosition());
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] CANCoder", getAbsoluteEncoder());
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] Drive Speed", getDriveSpeed());
-        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] NEO Output", drivingMotor.getBusVoltage());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] NEO Speed", getTurningSpeed());
     }
 
     // constructor

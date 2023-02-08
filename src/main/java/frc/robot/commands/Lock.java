@@ -15,13 +15,11 @@ public class Lock extends CommandBase{
 
     @Override
     public void initialize(){
-        //swerve.lock();
     }
 
     @Override
     public void execute(){
-        //swerve.stopModules();
-        swerve.test();
+        swerve.lock();
         
     }
 
