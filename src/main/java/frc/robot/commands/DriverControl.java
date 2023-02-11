@@ -70,6 +70,7 @@ public class DriverControl extends CommandBase{
         // Chassis Speeds
         ChassisSpeeds chassisSpeeds;
         if(fieldOriented.getAsBoolean()) {
+            //xSpeed = 
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, zSpeed, swerveSubsystem.getRotation2d());
 
         } else {

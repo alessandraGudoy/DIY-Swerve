@@ -63,7 +63,7 @@ public class SwerveModule extends SubsystemBase{
     /* * * ENCODER VALUES * * */
 
     public double getDrivePosition(){
-        return drivingEnc.getPosition();
+        return (drivingEnc.getPosition() % 900) / 900 * 360;
     }
 
     // neo encoder in degrees 
@@ -72,11 +72,11 @@ public class SwerveModule extends SubsystemBase{
     }
 
     public double getDriveSpeed(){
-        return drivingEnc.getVelocity();
+        return drivingEnc.getVelocity() / 60 * SwerveConsts.wheelDiameter * Math.PI;
     }
 
     public double getTurningSpeed(){
-        return turningEnc.getVelocity();
+        return turningEnc.getVelocity() / 60 * Math.PI;
     }
 
     //absolute encoder in radians 
@@ -107,7 +107,7 @@ public class SwerveModule extends SubsystemBase{
 
     public void setDesiredState(SwerveModuleState state){
         // To make keep robot from going back to 0 position
-        if(Math.abs(state.speedMetersPerSecond) < 0.01){
+        if(Math.abs(state.speedMetersPerSecond) < 0.1){
             stop();
             return;
         }

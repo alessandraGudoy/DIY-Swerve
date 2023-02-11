@@ -74,7 +74,7 @@ public final class Constants {
     /* * * PID VALUES * * */
     public static final double kp = 0.02;
     public static final double ki = 0.0;
-    public static final double kd = 0.0;
+    public static final double kd = 0.002;
   }
 
 }
