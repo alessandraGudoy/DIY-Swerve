@@ -66,15 +66,19 @@ public final class Constants {
       // 5676 / 60 * 341.88 * Math.PI
 
     /* * * SPEEDS * * */
-    public static final double maxSpeed_mps = 4.1148;
-      // 6380.0 / 60.0 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)) *
+    public static final double maxSpeed_mps = 3.6576;
+      // 5676.0 / 60.0 * ((14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)) *
       // 0.10033 * Math.PI; // 13.5 feet per second = 4.1148 meters per second
     public static final double maxRotation = maxSpeed_mps / Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
 
     /* * * PID VALUES * * */
-    public static final double kp = 0.02;
-    public static final double ki = 0.0;
-    public static final double kd = 0.002;
+    public static final double kp_turning = 0.02;
+    public static final double ki_turning = 0.0;
+    public static final double kd_turning = 0.002;
+
+    public static final double kp_driving = 0.002;
+    public static final double ki_driving = 0.0;
+    public static final double kd_driving = 0.0;
   }
 
 }

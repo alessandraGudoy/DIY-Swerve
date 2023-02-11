@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -25,11 +24,10 @@ public class SwerveModule extends SubsystemBase{
     private RelativeEncoder drivingEnc;
 
     private PIDController turningPID;
+    private PIDController drivingPID;
 
     private double encoderOffset;
     private boolean encoderReversed;
-
-    private double kp, ki, kd;
 
     public SwerveModule(int turnPort, int drivePort, int cancoderPort, double encoderOffset, boolean encoderReversed, boolean driveReversed, boolean turnReversed){
         turningMotor = new CANSparkMax(turnPort, MotorType.kBrushless);
@@ -41,8 +39,10 @@ public class SwerveModule extends SubsystemBase{
         turningEnc = turningMotor.getEncoder();
         drivingEnc = drivingMotor.getEncoder();
 
-        turningPID = new PIDController(SwerveConsts.kp, SwerveConsts.ki, SwerveConsts.kd);
+        turningPID = new PIDController(SwerveConsts.kp_turning, SwerveConsts.ki_turning, SwerveConsts.kd_turning);
         turningPID.enableContinuousInput(-Math.PI, Math.PI); // System is circular;  Goes from -Math.PI to 0 to Math.PI
+
+        drivingPID = new PIDController(SwerveConsts.kp_driving, SwerveConsts.ki_driving, SwerveConsts.kd_driving);
 
         this.encoderOffset = encoderOffset;
         this.encoderReversed = encoderReversed;
@@ -63,20 +63,24 @@ public class SwerveModule extends SubsystemBase{
     /* * * ENCODER VALUES * * */
 
     public double getDrivePosition(){
-        return (drivingEnc.getPosition() % 900) / 900 * 360;
+        //return (drivingEnc.getPosition() % 900) * 360;
+        return drivingEnc.getPosition();
     }
 
     // neo encoder in degrees 
     public double getTurningPosition(){
-        return (turningEnc.getPosition() % 900) / 900 * 360;
+        //return (turningEnc.getPosition() % 900) / 900 * 360;
+        return turningEnc.getPosition();
     }
 
     public double getDriveSpeed(){
-        return drivingEnc.getVelocity() / 60 * SwerveConsts.wheelDiameter * Math.PI;
+        //return drivingEnc.getVelocity() / 60 * SwerveConsts.wheelDiameter * Math.PI;
+        return drivingEnc.getVelocity();
     }
 
     public double getTurningSpeed(){
-        return turningEnc.getVelocity() / 60 * Math.PI;
+        //return turningEnc.getVelocity() / 60 * 2 * Math.PI;
+        return turningEnc.getVelocity();
     }
 
     //absolute encoder in radians 
@@ -115,12 +119,15 @@ public class SwerveModule extends SubsystemBase{
         state = SwerveModuleState.optimize(state, getState().angle);
 
         // set speed
-        drivingMotor.set(state.speedMetersPerSecond / SwerveConsts.maxSpeed_mps * SwerveConsts.voltage); 
-        turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), state.angle.getRadians()) * SwerveConsts.voltage);
+        //drivingMotor.set(state.speedMetersPerSecond / SwerveConsts.maxSpeed_mps * SwerveConsts.voltage); 
+        drivingMotor.set(drivingPID.calculate((drivingMotor.get() * SwerveConsts.maxSpeed_mps), state.speedMetersPerSecond) * SwerveConsts.voltage);
+        turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), state.angle.getRadians()));
 
         // Print to SmartDashboard
-        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] desired enc", state.angle.getRadians()); //desired enc 
-        SmartDashboard.putString("Swerve["+absoluteEncoder.getDeviceID()+"] state", state.toString());  
+        //SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] desired enc", state.angle.getRadians()); //desired enc 
+        SmartDashboard.putString("Swerve["+absoluteEncoder.getDeviceID()+"] state", state.toString());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] drive speed", getDriveSpeed());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] angle", getAbsoluteEncoder());
     }
 
     public void setAngle(SwerveModuleState state){
@@ -129,7 +136,7 @@ public class SwerveModule extends SubsystemBase{
 
         // set speed
         drivingMotor.set(0); 
-        turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), state.angle.getRadians()) * SwerveConsts.voltage);
+        turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), state.angle.getRadians()));
 
         // Print to SmartDashboard
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] desired enc", state.angle.getRadians()); //desired enc 
@@ -153,14 +160,9 @@ public class SwerveModule extends SubsystemBase{
         // turningPID.setPID(kp, ki, kd);
 
         SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] turning enc", getTurningPosition());
-        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] CANCoder", getAbsoluteEncoder());
-        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] Drive Speed", getDriveSpeed());
-        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] NEO Speed", getTurningSpeed());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] angle", getAbsoluteEncoder());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] drive speed", getDriveSpeed());
+        SmartDashboard.putNumber("Swerve["+absoluteEncoder.getDeviceID()+"] turning speed", getTurningSpeed());
     }
-
-    // constructor
-    // double solenoid, neo550 (CANSparkMax), relative encoder
-    // methods to close, open
-    // rotate clockwise rotate counter clockwise
 
 }

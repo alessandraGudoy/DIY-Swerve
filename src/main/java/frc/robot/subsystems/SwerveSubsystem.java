@@ -43,7 +43,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getRobotRotation(){
-        return new Rotation2d(navx.getYaw());
+        return new Rotation2d(Math.toRadians(navx.getYaw()));
     }
 
     public Rotation2d getRotation2d() {
