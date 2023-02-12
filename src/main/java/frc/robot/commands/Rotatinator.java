@@ -3,7 +3,11 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.SwerveConsts;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class Rotatinator extends CommandBase {
@@ -17,6 +21,7 @@ public class Rotatinator extends CommandBase {
     this.y = y;
 
     pid = new PIDController(0.002, 0, 0);
+    pid.enableContinuousInput(-Math.PI, Math.PI);
 
     addRequirements(subs);
   }
@@ -30,7 +35,17 @@ public class Rotatinator extends CommandBase {
     double yaw = swerve.getRobotRotation().getDegrees();
     double desriedYaw = Math.atan2(x.getAsDouble(), y.getAsDouble());
 
-    //swerve
+    double rotate = pid.calculate(yaw, desriedYaw);
+
+    ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, rotate);
+    
+    SwerveModuleState[] states = SwerveConsts.driveKinematics.toSwerveModuleStates(chassisSpeeds);
+
+    swerve.setModuleStates(states);
+
+    SmartDashboard.putNumber("Desired Yaw", desriedYaw);
+    SmartDashboard.putNumber("Current Yaw", swerve.getRobotRotation().getDegrees());
+    SmartDashboard.putNumber("Calculation", rotate);
 
   }
 

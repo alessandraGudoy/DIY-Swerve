@@ -3,11 +3,13 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AutoValues;
 import frc.robot.Constants.SwerveConsts;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -82,5 +84,36 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Robot Yaw", getYawAngle());
     }
+
+    public void driveForward(){
+        SwerveModuleState[] moduleStates = SwerveConsts.driveKinematics.toSwerveModuleStates(new ChassisSpeeds(AutoValues.driveTranslationSpeed, 0, 0));
+        setModuleStates(moduleStates);
+    }
+
+    public void driveBackward(){
+        SwerveModuleState[] moduleStates = SwerveConsts.driveKinematics.toSwerveModuleStates(new ChassisSpeeds(-AutoValues.driveTranslationSpeed, 0, 0));
+        setModuleStates(moduleStates);
+    }
+
+    public void strafeLeft(){
+        SwerveModuleState[] moduleStates = SwerveConsts.driveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, -AutoValues.driveTranslationSpeed, 0));
+        setModuleStates(moduleStates);
+    }
+
+    public void strafeRight(){
+        SwerveModuleState[] moduleStates = SwerveConsts.driveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, AutoValues.driveTranslationSpeed, 0));
+        setModuleStates(moduleStates);
+    }
+
+    public void rotateLeft(){
+        SwerveModuleState[] moduleStates = SwerveConsts.driveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, -AutoValues.driveRotationSpeed));
+        setModuleStates(moduleStates);
+    }
+
+    public void rotateRight(){
+        SwerveModuleState[] moduleStates = SwerveConsts.driveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, AutoValues.driveRotationSpeed));
+        setModuleStates(moduleStates);
+    }
+
 
 }

@@ -81,4 +81,9 @@ public final class Constants {
     public static final double kd_driving = 0.0;
   }
 
+  public static final class AutoValues{
+    public static final double driveTranslationSpeed = 0.5;
+    public static final double driveRotationSpeed = 0.3;
+  }
+
 }
