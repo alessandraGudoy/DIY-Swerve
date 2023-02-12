@@ -24,7 +24,7 @@ public class SwerveModule extends SubsystemBase{
     private RelativeEncoder drivingEnc;
 
     private PIDController turningPID;
-    private PIDController drivingPID;
+    // private PIDController drivingPID;
 
     private double encoderOffset;
     private boolean encoderReversed;
@@ -42,7 +42,7 @@ public class SwerveModule extends SubsystemBase{
         turningPID = new PIDController(SwerveConsts.kp_turning, SwerveConsts.ki_turning, SwerveConsts.kd_turning);
         turningPID.enableContinuousInput(-Math.PI, Math.PI); // System is circular;  Goes from -Math.PI to 0 to Math.PI
 
-        drivingPID = new PIDController(SwerveConsts.kp_driving, SwerveConsts.ki_driving, SwerveConsts.kd_driving);
+        // drivingPID = new PIDController(SwerveConsts.kp_driving, SwerveConsts.ki_driving, SwerveConsts.kd_driving);
 
         this.encoderOffset = encoderOffset;
         this.encoderReversed = encoderReversed;
@@ -119,8 +119,8 @@ public class SwerveModule extends SubsystemBase{
         state = SwerveModuleState.optimize(state, getState().angle);
 
         // set speed
-        //drivingMotor.set(state.speedMetersPerSecond / SwerveConsts.maxSpeed_mps * SwerveConsts.voltage); 
-        drivingMotor.set(drivingPID.calculate((drivingMotor.get() * SwerveConsts.maxSpeed_mps), state.speedMetersPerSecond) * SwerveConsts.voltage);
+        drivingMotor.set(state.speedMetersPerSecond / SwerveConsts.maxSpeed_mps * SwerveConsts.voltage); 
+        // drivingMotor.set(drivingPID.calculate((drivingMotor.get() * SwerveConsts.maxSpeed_mps), state.speedMetersPerSecond) * SwerveConsts.voltage);
         turningMotor.set(turningPID.calculate(getAbsoluteEncoder(), state.angle.getRadians()));
 
         // Print to SmartDashboard
