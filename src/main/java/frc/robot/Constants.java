@@ -3,8 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
-// CHANGE CONVERSION FACTORS, MEASUREMENTS AND SPEEDS
-
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -79,6 +77,12 @@ public final class Constants {
     public static final double kp_driving = 0.002;
     public static final double ki_driving = 0.0;
     public static final double kd_driving = 0.0;
+  }
+
+  public static final class LandingGear{
+    public static final int deployingPistonFWDChannel = 0;
+    public static final int deployingPistonREVChannel = 0;
+    public static final int deployedWheelsPort = 0;
   }
 
   public static final class AutoValues{

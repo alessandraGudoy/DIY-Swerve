@@ -1,15 +1,21 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AutoValues;
+import frc.robot.Constants.LandingGear;
 import frc.robot.Constants.SwerveConsts;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -19,6 +25,9 @@ public class SwerveSubsystem extends SubsystemBase {
     private SwerveModule frontRight;
 
     private AHRS navx;
+
+    private DoubleSolenoid landinator;
+    private CANSparkMax wheelinator;
 
     public SwerveSubsystem() {
         frontLeft = new SwerveModule(SwerveConsts.FL_turningMotorPort, SwerveConsts.FL_driveMotorPort, 
@@ -34,6 +43,12 @@ public class SwerveSubsystem extends SubsystemBase {
             SwerveConsts.FR_absoluteEncoderPort, SwerveConsts.FR_offset , false, true, true);
 
         navx = new AHRS(SPI.Port.kMXP);
+
+
+        /* * * Landing Gear * * */
+        landinator = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, LandingGear.deployingPistonFWDChannel, LandingGear.deployingPistonREVChannel);
+        wheelinator = new CANSparkMax(LandingGear.deployedWheelsPort, MotorType.kBrushless);
+
     }
 
     public void resetNavx() {
@@ -115,5 +130,26 @@ public class SwerveSubsystem extends SubsystemBase {
         setModuleStates(moduleStates);
     }
 
+
+    /* * * LANDING GEAR * * */
+
+    public void wheelsIn(){
+        landinator.set(Value.kReverse);
+    }
+
+    public void wheelsOut(){
+        landinator.set(Value.kForward);
+    }
+
+    public void setEndgame(double speed){
+        
+    }
+
+    // WE NEED FROM KAINOA
+    // 12 can spark max motors
+    // two pneumatics / double solenoids (in/out channels)
+    // limit switch ports
+    // can coders
+    // 
 
 }
