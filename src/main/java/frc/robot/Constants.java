@@ -34,25 +34,25 @@ public final class Constants {
     public static final int FL_driveMotorPort = 1;
     public static final int FL_turningMotorPort = 5;
     public static final int FL_absoluteEncoderPort = 9;
-    public static final double FL_offset = -Math.toRadians(0);
+    public static final double FL_offset = -Math.toRadians(3.146);
 
     /* * * BACK LEFT * * */
     public static final int BL_driveMotorPort = 2;
     public static final int BL_turningMotorPort = 6;
     public static final int BL_absoluteEncoderPort = 10;
-    public static final double BL_offset = -Math.toRadians(0);
+    public static final double BL_offset = -Math.toRadians(3.134);
 
     /* * * BACK RIGHT * * */
     public static final int BR_driveMotorPort = 3;
     public static final int BR_turningMotorPort = 7;
     public static final int BR_absoluteEncoderPort = 11;
-    public static final double BR_offset = -Math.toRadians(0);
+    public static final double BR_offset = -Math.toRadians(3.134);
 
     /* * * FRONT RIGHT * * */
-    public static final int FR_driveMotorPort = 4;
-    public static final int FR_turningMotorPort = 8;
+    public static final int FR_driveMotorPort = 8;
+    public static final int FR_turningMotorPort = 4;
     public static final int FR_absoluteEncoderPort = 12;
-    public static final double FR_offset = -Math.toRadians(0);
+    public static final double FR_offset = -Math.toRadians(3.120);
 
     /* * * CONVERSIONS TO METERS * * */
     public static final double driveEncoderRotationConversion = gearRatio * Math.PI * wheelDiameter;
@@ -70,7 +70,7 @@ public final class Constants {
     public static final double maxRotation = maxSpeed_mps / Math.hypot(trackWidth / 2.0, wheelBase / 2.0);
 
     /* * * PID VALUES * * */
-    public static final double kp_turning = 0.02;
+    public static final double kp_turning = 0.2;
     public static final double ki_turning = 0.0;
     public static final double kd_turning = 0.002;
 
