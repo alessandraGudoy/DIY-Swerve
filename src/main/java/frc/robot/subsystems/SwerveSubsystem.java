@@ -142,14 +142,9 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setEndgame(double speed){
-        
+         SwerveModuleState bl = new SwerveModuleState(speed, new Rotation2d(90));
+         SwerveModuleState br = new SwerveModuleState(speed, new Rotation2d(Math.toRadians(90)));
+         wheelinator.set(speed);
     }
-
-    // WE NEED FROM KAINOA
-    // 12 can spark max motors
-    // two pneumatics / double solenoids (in/out channels)
-    // limit switch ports
-    // can coders
-    // 
 
 }

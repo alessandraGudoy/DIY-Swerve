@@ -34,13 +34,13 @@ public final class Constants {
     public static final int FL_driveMotorPort = 1;
     public static final int FL_turningMotorPort = 5;
     public static final int FL_absoluteEncoderPort = 9;
-    public static final double FL_offset = -Math.toRadians(3.146);
+    public static final double FL_offset = -Math.toRadians(3.155);
 
     /* * * BACK LEFT * * */
     public static final int BL_driveMotorPort = 2;
     public static final int BL_turningMotorPort = 6;
     public static final int BL_absoluteEncoderPort = 10;
-    public static final double BL_offset = -Math.toRadians(3.134);
+    public static final double BL_offset = -Math.toRadians(3.118);
 
     /* * * BACK RIGHT * * */
     public static final int BR_driveMotorPort = 3;
@@ -52,7 +52,7 @@ public final class Constants {
     public static final int FR_driveMotorPort = 8;
     public static final int FR_turningMotorPort = 4;
     public static final int FR_absoluteEncoderPort = 12;
-    public static final double FR_offset = -Math.toRadians(3.120);
+    public static final double FR_offset = -Math.toRadians(3.124);
 
     /* * * CONVERSIONS TO METERS * * */
     public static final double driveEncoderRotationConversion = gearRatio * Math.PI * wheelDiameter;
