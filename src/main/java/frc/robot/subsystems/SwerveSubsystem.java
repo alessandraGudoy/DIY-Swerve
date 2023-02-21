@@ -46,7 +46,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
         /* * * Landing Gear * * */
-        landinator = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, LandingGear.deployingPistonFWDChannel, LandingGear.deployingPistonREVChannel);
+        landinator = new DoubleSolenoid(PneumaticsModuleType.REVPH, LandingGear.deployingPistonFWDChannel, LandingGear.deployingPistonREVChannel);
         wheelinator = new CANSparkMax(LandingGear.deployedWheelsPort, MotorType.kBrushless);
 
     }
@@ -142,7 +142,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setEndgame(double speed){
-         SwerveModuleState bl = new SwerveModuleState(speed, new Rotation2d(90));
+         SwerveModuleState bl = new SwerveModuleState(speed, new Rotation2d(Math.toRadians(90)));
          SwerveModuleState br = new SwerveModuleState(speed, new Rotation2d(Math.toRadians(90)));
          wheelinator.set(speed);
     }

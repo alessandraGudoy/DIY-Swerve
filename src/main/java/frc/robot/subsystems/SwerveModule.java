@@ -53,7 +53,7 @@ public class SwerveModule extends SubsystemBase{
         drivingMotor.setInverted(driveReversed);
         turningMotor.setInverted(turnReversed);
 
-        drivingMotor.setIdleMode(IdleMode.kCoast);
+        drivingMotor.setIdleMode(IdleMode.kBrake);
         turningMotor.setIdleMode(IdleMode.kBrake);
 
         resetEncoders();
